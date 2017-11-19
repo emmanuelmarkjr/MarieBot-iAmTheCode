@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+    body {
+            background-color: black;
+          font-family: 'Montserrat', sans-serif;
+        }
+</style>
+    <title>Search Results</title>
+</head>
+<body>
+{% if soup|length %}
+    <div class="alert alert-success" style="width: 400px;float: right;margin-top: -200px;margin-right: 110px">
+            <center><p><strong>
+                {% autoescape on %}
+                {{ soup|slice:":500" }}
+                {% endautoescape %}
+                </strong></p></center>
+    </div>
+{% endif %}
+{% if soup|length == 0 %}
+{% if results|length %}
+    <div class="alert alert-success" style="width: 400px;float: right;margin-top: -200px;margin-right: 110px">
+        {% for result in results %}
+            <center><p><strong>{{ result.answer }}</strong></p></center>
+        {% endfor %}
+        {{ soup }}
+    </div>
+{% else %}
+	<div class="alert alert-danger" style="width: 400px;float: right;margin-top: -200px;margin-right: 110px">
+        <center><p><strong>Oops!!!, I'm sorry I don't seem to understand that, say something nice</strong></p></center>
+	</div>
+{% endif %}
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load mytags %}
+{% load static %}
+
+{% block container %}
+    <div class="col-md-3" style="padding-left: 120px;padding-top: 90px">
+        <a href="/"><img src="{% static 'img/iamtheCODE-logo.png' %}" width="220" height="100"></a></center>
+    <a href="booking/"><img src="{% static 'img/22615963add19ac6b6d715a97c8d477e8b95b7ea.png' %}" width="210" height="70" style="margin-top: 10px"></a>
+    </div>
+    <div class="container" style="width: 250px;padding-top: 40px">
+        <a href="" style="text-decoration: none"><center><h1 style="color:white">MarieBot</h1>
+        <img src="{% static 'img/7e2389d051e9-Bot_Icon_512X512.png' %}" width="200" height="200"></center>
+        </a>
+    </div>
+    <div id="results"><div class="alert alert-success" style="width: 400px;float: right;margin-top: -200px;margin-right: 110px">
+        <center><p><strong>Hello, I'm MarieBot</strong></p></center>
+    </div></div>
+    <div class="container" style="padding-top: 1%">
+        <div class="alert alert-info">
+            {% load static %}
+            <div class="form-group">
+                <input id="q" class="form-control input-lg" type="text"/>
+            </div>
+            <div class="form-group">
+                <center><input id="searchSubmit" type="submit" class="btn btn-success btn-lg" value="Enter"/></center>
+                <div class="margin">
+                    <br/><center><span id="spinner"><p><strong>Okay, I'm doing some thinking now</strong></p></span></center>
+                </div>
+            </div>
+        </div>
+        {% if messages %}
+            <ul class="list-unstyled messages">
+                {% for message in messages %}
+                    {% get_bootstrap_alert_msg_css_name message.tags as alert_tag %}
+                        <center class="alert alert-{{ alert_tag }}">{{ message }}</center>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="alert alert-danger" style="margin-top: -5px">
+            <center><p><strong>Are You In Danger?</strong></p>
+                <p><button class="btn btn-danger btn-lg" id="send-location-btn"><span>Hit Me!!!</span></button></p>
+            </center>
+        </div>
+    </div>
+    <script>
+    "use strict";
+
+    $(document).ready(function() {
+
+        $("#send-location-btn").click(function(event){
+            event.preventDefault();
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(success);
+            } else {
+                $("#location-lat-long").val('Your browser doesn\'t support the geolocation api.');
+            }
+
+        function success(position) {
+            var latitude        = position.coords.latitude;
+            var longitude       = position.coords.longitude;
+            getAddress(latitude,longitude);
+        }
+
+        function processAddress(address) {
+            $("#location-address").val(address);
+            var url = "{% url 'danger_alert' 'address' %}";
+            document.location.href = url.replace('address', address);                                            // speak the address
+        }
+
+        function getAddress(myLatitude,myLongitude) {
+            var geocoder    = new google.maps.Geocoder();
+            var location    = new google.maps.LatLng(myLatitude, myLongitude);
+            geocoder.geocode({'latLng': location}, function (results, status) {
+                if(status == google.maps.GeocoderStatus.OK) {
+                    processAddress(results[0].formatted_address);
+                } else {
+                  alert("Geocode failure: " + status);
+                  return false;
+                }
+            });
+        }
+
+    });
+    });
+
+</script>
+{% endblock container %}
