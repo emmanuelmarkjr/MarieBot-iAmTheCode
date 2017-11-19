@@ -4,4 +4,6 @@ with the bot and it gives them information about iAmTheCode,
 and many more, even the #FreedomForGirls Campaign.
 
 The Second Part of the App is the whsitle blower, with a button users can hit, in real time, their location(address),
-is being sent to the admin control panel, where respective agencies could sent there for monitoring and control.
+is being sent to the admin control panel, where respective agencies could be sent there for monitoring and control.
+
+![alt tag](http://techtv.pythonanywhere.com/static/img/Screenshot%20from%202017-11-19%2015:31:36.png "MarieBot")
